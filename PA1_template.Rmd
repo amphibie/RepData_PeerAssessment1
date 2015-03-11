@@ -1,5 +1,4 @@
 ---
-<<<<<<< HEAD
 title: "PA1_template.Rmd"
 author: "Paul Foellbach"
 date: "Tuesday, March 10, 2015"
@@ -8,10 +7,9 @@ output: html_document
 
 ##Reproducible Research: Peer Assessment 1
 
-###Basic settings
-```{r}
-echo = TRUE  # Always make code visible
-options(scipen = 1)  # Turn off scientific notations for numbers
+###Setting Global Options
+```{r globaloptions, echo=TRUE, results="asis",include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, results ="asis", include = TRUE)
 ```
 
 ###Loading and processing the data    
@@ -24,6 +22,7 @@ List.files with the argument full.names=TRUE gives the filename and the path the
 file <- list.files("activity_data", full.names=TRUE)
 file
 ```
+
 The following statement is used to load the data using read.csv().
 ```{r}
 amd <- read.csv(file, header = TRUE, sep = ",",
@@ -42,13 +41,14 @@ amd.ignore.na <- na.omit(amd)
 
 ###What is mean total number of steps taken per day?
 Here we ignore the missing values.     
+
 1. We calculate the total number of steps per day.
 ```{r}
 steps_per_day <- aggregate(steps ~ date, amd.ignore.na, sum)
 head(steps_per_day)
 ```
      
-2 We make a histogram of the total number of steps taken per day, plotted with appropriate breaks number.
+2. We make a histogram of the total number of steps taken per day, plotted with appropriate breaks number.
 ```{r}
 hist(steps_per_day$steps, main = paste("Total number of steps each day"), col="blue", xlab="Total number of steps", breaks=30)
 ```
@@ -58,6 +58,7 @@ hist(steps_per_day$steps, main = paste("Total number of steps each day"), col="b
 mean(steps_per_day$steps) 
 median(steps_per_day$steps) 
 ```
+
 The mean is 10766.19 and median is 10765.
 
 ###What is the average daily activity pattern ?
@@ -75,7 +76,7 @@ interval_mean_steps <- ddply(amd.ignore.na,~interval, summarise, mean=mean(steps
 
 Plot time series of the 5-minute interval and the average number of steps taken across all days
 ```{r}
-plot(interval_mean_steps$interval,interval_mean_steps$mean, type= "l", main="Mean step number taken in each 5-minute-intervall across all days" ,xlab= "5-Minute Interval", ylab="Average number of steps")
+plot(interval_mean_steps$interval,interval_mean_steps$mean, type= "l", main="Mean of step number taken in each 5-minute-intervall across all days" ,xlab= "5-Minute Interval", ylab="Mean of number of steps")
 ```
 
 Report the 5-min interval, that contains the maximum mean of number of steps:
@@ -84,7 +85,7 @@ interval_mean_steps[which.max(interval_mean_steps$mean), ]
 ```
 
 Observation:  
-The maximum mean of step number is located at 5-min Interval 835. 
+The maximum mean of 206,1698 of step number is located at 5-min Interval 835. 
 
 ###Imputing missing values
 
@@ -109,6 +110,7 @@ the dataset (i.e. the total number of rows with NAs)
 na_amd <- sum(is.na(amd$steps))
 na_amd
 ```
+
 The total number of missing values are 2304.
 
 Strategy for filling in all of the missing values 
@@ -127,14 +129,15 @@ We check that are there any missing values remaining or not
 ```{r}
 sum(is.na(df_impute$steps))
 ```
+
 We see that there are no missing values.    
 Calculate the total number of steps taken each day with missing data imputed and assign to new_steps_per_day
 ```{r}
 new_steps_per_day <- aggregate(steps ~ date, df_impute, sum)
 head(new_steps_per_day)
 ```
-Make a histogram of the total number of steps taken each day
-with plot
+
+Make a histogram of the total number of steps taken each day.
 ```{r}
 hist(new_steps_per_day$steps, main = paste("Total number of steps each day (with missing data imputed)"), col="blue", xlab="Total number of steps", breaks=30)
 ```
@@ -147,12 +150,12 @@ median(new_steps_per_day$steps)
 
 Based on the imputed data set the new mean and median is 10766.19. 
 Compared with the original mean 10766 and median 10765 the mean doesn't change 
-and the median has a small change. In fact, the new median becomes identical to the mean. 
+and the median has a small change. The new median becomes identical to the mean. 
 One possible explanation is that when we fill the missing data for the intervals, 
 we use means for intervals, so we have more data close or identical to the means,
 and median is shifted towards the mean and becomes identical to the mean.
-The impact of imputing missing data on the estimates of the total daily number of steps is also clear: 
-now we have higher frequency counts in the histogram at the center region (close to the mean).
+The impact of imputing missing data on the estimates of the total daily number of steps is also clear. 
+We have higher frequency counts in the histogram at the center region (close to the mean).
 
 ###Are there differences in activity patterns between weekdays and weekends?
 For this part the weekdays() function may be of some help here. We use the dataset with the filled-in missing values for this part.    
@@ -187,29 +190,3 @@ xyplot(avgSteps$meanOfSteps ~ avgSteps$interval | avgSteps$weekdays,
        layout = c(1, 2), type = "l", 
        xlab = "Interval", ylab = "Mean of steps")
 ```
-=======
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
-
-
-## Loading and preprocessing the data
-
-
-
-## What is mean total number of steps taken per day?
-
-
-
-## What is the average daily activity pattern?
-
-
-
-## Imputing missing values
-
-
-
-## Are there differences in activity patterns between weekdays and weekends?
->>>>>>> 80edf39c3bb508fee88e3394542f967dd3fd3270
