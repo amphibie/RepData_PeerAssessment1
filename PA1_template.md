@@ -8,7 +8,7 @@ output: html_document
 ##Reproducible Research: Peer Assessment 1
 
 ###Setting Global Options
-We set the global options. The code and results are ouputed.
+We set the global options. The code and results are outputed.
 
 ```r
 knitr::opts_chunk$set(echo = TRUE, results ="asis")
